@@ -2,7 +2,8 @@
 
 int obter_prox_vertice(int* visitados, int** matrix, int N, int vertice_atual) {
     int menor = INT_MAX, proximo = -1;
-    for (int j = 0; j < N; j++) {
+    int j;
+    for (j = 0; j < N; j++) {
         if (!visitados[j] && matrix[vertice_atual][j] < menor) {
             menor = matrix[vertice_atual][j];
             proximo = j;
@@ -25,7 +26,7 @@ void atualizar_caminho(Solucao *result, int proximo, int custo, int* visitados, 
     *vertice_atual = proximo;
 }
 
-Solucao vizinho_proximo(int ** matrix, int N, int inicio){
+Solucao vizinho_proximo(int ** matrix, int inicio, int N){
     Solucao result = init_solucao(matrix, N);
     int *visitados = create_vector(N);
     
@@ -36,7 +37,7 @@ Solucao vizinho_proximo(int ** matrix, int N, int inicio){
     visitados[vertice_atual] = 1;
     result.caminho[num_visitados++] = vertice_atual;
 
-  while (num_visitados < N) {
+    while (num_visitados < N) {
         int proximo = obter_prox_vertice(visitados, matrix, N, vertice_atual);
         if (proximo != -1) {
             atualizar_caminho(&result, proximo, matrix[vertice_atual][proximo], visitados, &num_visitados, &vertice_atual);
@@ -47,6 +48,5 @@ Solucao vizinho_proximo(int ** matrix, int N, int inicio){
     result.media_do_caminho = result.custo_atual/(float)num_visitados;
 
     free(visitados);
-    result.menor_custo = result.custo_atual;
     return result;
 }

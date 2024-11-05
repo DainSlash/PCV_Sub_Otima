@@ -1,17 +1,18 @@
 #include "mem_utils.h"
 
-int** create_matrix(int N){
+int** create_matrix(int N, int M){
     int ** matrix = (int **) malloc(sizeof(int*) * N);
     int i, j;
     for (i = 0; i < N; i++) {
-        matrix[i] = (int *) malloc(sizeof(int) * N);
-        for(j = 0; j < N ; j++) matrix[i][j] = INT_MAX;
+        matrix[i] = (int *) malloc(sizeof(int) * M);
+        for(j = 0; j < M ; j++) matrix[i][j] = INT_MAX;
     }
     return matrix;
 }   
 
 void free_matrix(int** matrix, int N){
-    for (int i = 0; i < N; i++) {
+    int i;
+    for (i = 0; i < N; i++) {
         free(matrix[i]);
     }
     free(matrix);
@@ -50,8 +51,7 @@ Solucao init_solucao(int **matrix, int N){
     solucao.caminho = create_vector(N);
     solucao.custos_caminhos = create_vector(N);
     solucao.custo_atual = 0;
-    solucao.menor_custo = INT_MAX;
-    solucao.qtd_arestas = N;
+    solucao.qtd_arestas = (N*(N-1))/2;
     solucao.media_das_arestas = get_media_arestas(matrix, N);
     solucao.media_dos_extremos = get_media_extremos(matrix, N);
     solucao.media_do_caminho = 0;
